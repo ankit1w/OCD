@@ -7,7 +7,7 @@
 
 This program helps you download online coursewares in the form of printable PDF files, which are viewable on a wide range of devices. Attempts have been made to preserve original quality of the lectures, without compromising the readability.
 
-The actual courses are available <a href="http://122.252.249.26:96/forms/frmlogin.aspx" target="_blank">here</a>.
+The actual courses are available [here](http://122.252.249.26:96/forms/frmlogin.aspx).
 
 ## Compatibility
 
