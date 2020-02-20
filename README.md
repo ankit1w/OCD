@@ -46,3 +46,9 @@ Report bugs via email at this address : [ankit.m@my.com](mailto:ankit.m@my.com?S
 * Hat tip to anyone whose code was used.
 * Thanks to the teachers who emphasized the importance of the Online Coursewares, which led me to develop this downloader instead of studying the lessons.
 * [Stack Overflow](https://stackoverflow.com/), for being what it is.
+
+## Donate
+
+<p align="center">
+  <a href="DONATE.md"><img width="250" height="150" src="https://www.svgrepo.com/show/194260/donate.svg"></a>
+</p>
