@@ -16,7 +16,7 @@ Runs on 32bit and 64bit versions of Windows 7 / 8 / 8.1 / 10
 ## How To
 
  - Download the latest windows binary executable from
-   [here](https://github.com/ankit1w/OCD/releases) and run it. 
+   [the releases page](https://github.com/ankit1w/OCD/releases) and run it. 
    
   - The first run will trigger a windows alert, prompting whether or not
    to allow the main executable, as well as *phantomjs.exe* through the
