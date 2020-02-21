@@ -37,10 +37,6 @@ Report bugs via email at this address : [ankit.m@my.com](mailto:ankit.m@my.com?S
 * [wkhtmltopdf](https://wkhtmltopdf.org/) - Command line tool to generate PDFs from HTML.
 * [pdfCropMargins](https://github.com/abarker/pdfCropMargins) - Used to correct margins for easier readability, modified slightly to work without arguments.
 
-## Author
-
-**Ankit Majumder** 
-
 ## Acknowledgments
 
 * Hat tip to anyone whose code was used.
