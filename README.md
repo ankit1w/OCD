@@ -11,16 +11,16 @@ The actual courses are available [here](http://122.252.249.26:96/forms/frmlogin.
 
 ## Compatibility
 
-Runs on 32bit and 64bit versions of Windows 7 / 8 / 8.1 / 10
+Runs on 32bit and 64bit versions of Windows 7, 8, 8.1 and 10.
 
 ## How To
 
  - Download the latest windows binary executable from
    [the releases page](https://github.com/ankit1w/OCD/releases) and run it. 
    
-  - The first run will trigger a windows alert, prompting whether or not
+  - The first run will trigger a Windows security alert, prompting whether or not
    to allow the main executable, as well as *phantomjs.exe* through the
-   firewall. You can choose to deny the firewall permissions, although
+   firewall. You can deny the firewall permissions, although
    it is recommended otherwise.
    
    - After selecting the subject of choice, the program will save its PDF in the same location as the executable.
@@ -40,7 +40,7 @@ Report bugs via email at this address : [ankit.m@my.com](mailto:ankit.m@my.com?S
 ## Acknowledgments
 
 * Hat tip to anyone whose code was used.
-* Thanks to the teachers who emphasized the importance of the Online Coursewares, which led me to develop this downloader instead of studying the lessons.
+* Thanks to the teachers who emphasized the importance of the Online Coursewares, which led me to develop this downloader instead of studying the lessons. :\
 * [Stack Overflow](https://stackoverflow.com/), for being what it is.
 
 ## Donate
