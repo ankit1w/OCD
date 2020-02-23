@@ -1,34 +1,53 @@
-from os import system, remove, path
+from os import system, _exit
+from random import choices
+from shutil import copyfile
+from string import ascii_letters, digits
+from sys import _MEIPASS
 from tempfile import gettempdir
 
-from course_scraper import lecture_links, lecture_name, _MEIPASS
-from animation import blink
-from shutil import copyfile, rmtree
-import glob
+from colorama import init, Fore, Back
 
-blink('Printing gathered pages to PDF...')
+from cleanup import cleanup
+from course_scraper import course_scraper
+from print_pdf import print_to_pdf
 
-if len(lecture_links) == 1:
-    cli_arguments = '-L 0mm -R 0mm -T 0mm -B 0mm ' + ' '.join(lecture_links)
-    system(f'{_MEIPASS}\\wkhtmltopdf.exe {cli_arguments} {_MEIPASS}\\a_very_random_name_FINAL.pdf')
+init()
+print(Fore.LIGHTWHITE_EX, Back.BLACK, sep='', end='')
+
+system(f'{_MEIPASS}\\disable_quick_edit.bat 2 >nul')
+
+dummy = ''.join(choices(ascii_letters + digits, k=10))
+dummy_error = system(f'2>nul ( >{dummy} type nul)')
+if dummy_error:
+    print('Could not attain permissions to create PDF in the current location.')
+    print('Make sure the folder is writable without administrative access.')
+    print('If not, run the program as administrator.')
+    print('Press any key to exit.')
+
+    cleanup()
+    system('pause>nul')
+    _exit(0)
 else:
-    cli_arguments = '-L 0mm -R 0mm -T 0mm -B 0mm --page-width 350mm --page-height 10000mm --dpi 600 --zoom 2 ' + ' '.join(
-        lecture_links)
-    system(f'{_MEIPASS}\\wkhtmltopdf.exe {cli_arguments} {_MEIPASS}\\a_very_random_name.pdf')
+    system(f'del {dummy}')
 
-    print()
-    blink('Adjusting margins...\r')
+system('mode con cols=120 lines=30')
+system(
+    'powershell -command "&{$H=get-host;$W=$H.ui.rawui;$B=$W.buffersize;$B.width=150;$B.height=1000;$W.buffersize=$B;}">nul')
+system('title Online Courseware Downloader')
 
-    from pdfCropMargins_mod.main_pdfCropMargins import main_crop
-    main_crop()
-    remove(f'{_MEIPASS}\\a_very_random_name.pdf')
+try:
+    copyfile(f'{_MEIPASS}\\phantomjs.exe', f'{gettempdir()}\\phantomjs.exe')
+except PermissionError:
+    pass
 
-copyfile(f'{_MEIPASS}\\a_very_random_name_FINAL.pdf', f'{lecture_name}.pdf')
-remove(f'{_MEIPASS}\\a_very_random_name_FINAL.pdf')
-remove(f'{gettempdir()}\\phantomjs.exe')
+print('Online Courseware Downloader'.center(120))
+print('github.com/ankit1w/OCD'.center(120))
+print('─' * 120)
+lecture_name, lecture_links, new_type = course_scraper()
+print_to_pdf(lecture_links, lecture_name, new_type)
+cleanup()
 
-for dir_path in glob.iglob(path.join(gettempdir(), "pdfCropMarginsTmpDir_*")):
-    if path.isdir(dir_path):
-        rmtree(dir_path)
-
-input('Thanks for using the program!')
+system("title Online Courseware Downloader : "
+       f"Downloaded ↓ {lecture_name}".replace('&', '^&'))
+print('\nThanks for using the program!')
+system('pause>nul')

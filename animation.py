@@ -1,16 +1,16 @@
 from random import randrange, choice
-from sys import stdout
 from threading import Thread
 from time import sleep
 
-from colorama import Fore, init
+from colorama import init, Fore, Back
 
 running = True
 colors = (
-    Fore.CYAN, Fore.LIGHTRED_EX, Fore.YELLOW, Fore.MAGENTA, Fore.GREEN, Fore.LIGHTBLUE_EX, Fore.LIGHTCYAN_EX,
-    Fore.LIGHTGREEN_EX, Fore.LIGHTMAGENTA_EX, Fore.LIGHTWHITE_EX, Fore.LIGHTYELLOW_EX, Fore.RED, Fore.WHITE)
+    Fore.CYAN, Fore.LIGHTRED_EX, Fore.YELLOW, Fore.MAGENTA, Fore.GREEN, Fore.LIGHTCYAN_EX,
+    Fore.LIGHTGREEN_EX, Fore.LIGHTMAGENTA_EX, Fore.LIGHTWHITE_EX, Fore.LIGHTYELLOW_EX, Fore.WHITE)
 init()
 
+print(Back.BLACK, end='')
 
 def scrambler(animation_text):
     chars = '#*@!?$%+&'
@@ -22,20 +22,19 @@ def scrambler(animation_text):
             word = list(word)
             word[randrange(len(word))] = choice(chars)
             text.append(''.join(word))
-        print(choice(colors) + ' '.join(text), end='\r')
+        sleep(0.05)
+        print(choice(colors) + ' '.join(text).center(120), end='\r')
 
 
 def animate(message_text='', end=0):
     global running
     if not end:
-        sleep(1)
         running = True
         t = Thread(target=scrambler, args=(message_text,))
         t.start()
-        return
     else:
         running = False
-        blink(f"\033[K{message_text}{' ' * 80}")
+        blink(message_text)
 
 
 def printProgressBar(iteration, total, prefix='', suffix='', decimals=1, length=100, fill='█'):
@@ -48,12 +47,12 @@ def printProgressBar(iteration, total, prefix='', suffix='', decimals=1, length=
 
 
 def blink(message):
-    print(choice(colors) + message, end='\r')
+    print('\r' + choice(colors) + message.center(120, ' '), end='\r')
     sleep(0.3)
-    print(' ' * 80, end='\r')
+    print(' ' * 120, end='\r')
     sleep(0.2)
-    print(choice(colors) + message, end='\r')
+    print('\r' + choice(colors) + message.center(120), end='\r')
     sleep(0.1)
-    print(' ' * 80, end='\r')
+    print(' ' * 120, end='\r')
     sleep(0.1)
-    print(choice(colors) + message)
+    print(choice(colors) + message.center(120))
