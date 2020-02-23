@@ -11,3 +11,31 @@
   <b>ankit1w@apl</b>
 </p>
 
+
+## Donate via PayPal
+
+<p align="center">
+  <a href="https://paypal.me/ankit1w">
+    <img width="350" src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png">
+  </a>
+</p>
+<p align="center">
+  <a href="https://paypal.me/ankit1w">
+    <b>paypal.me/ankit1w</b>
+  </a>
+</p>
+
+## Other methods
+
+<p align="center">
+  <a href="https://rzp.io/l/ankit1w_OCD">
+    <img width="350" src="https://i.imgur.com/DGVrNug.png">
+    </br>
+    <img height="25px" src="https://cdn.razorpay.com/static/assets/powered_by_razorpay.png">
+  </a>
+</p>
+<p align="center">
+  <a href="https://rzp.io/l/ankit1w_OCD">
+    <b>rzp.io/l/ankit1w_OCD</b>
+  </a>
+</p>
