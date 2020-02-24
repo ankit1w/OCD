@@ -2,7 +2,7 @@ from random import randrange, choice
 from threading import Thread
 from time import sleep
 
-from colorama import init, Fore, Back
+from colorama import init, Fore
 
 running = True
 colors = (
@@ -10,7 +10,6 @@ colors = (
     Fore.LIGHTGREEN_EX, Fore.LIGHTMAGENTA_EX, Fore.LIGHTWHITE_EX, Fore.LIGHTYELLOW_EX, Fore.WHITE)
 init()
 
-print(Back.BLACK, end='')
 
 def scrambler(animation_text):
     chars = '#*@!?$%+&'

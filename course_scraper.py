@@ -1,5 +1,5 @@
 from os import system, _exit
-from sys import _MEIPASS
+from path_vars import work_dir
 from tempfile import gettempdir
 from time import sleep
 from warnings import filterwarnings
@@ -35,7 +35,7 @@ def wait_to_load(element):
         try:
             driver.find_element_by_id(element)
             return
-        except common.exceptions.NoSuchElementException:
+        except:
             sleep(0.5)
             timeout += 1
 
@@ -160,7 +160,7 @@ def course_scraper():
         try:
             driver = webdriver.PhantomJS(service_args=['--load-images=no'],
                                          executable_path=f'{gettempdir()}\\phantomjs.exe',
-                                         service_log_path=f'{_MEIPASS}\\ghostdriver.log')
+                                         service_log_path=f'{work_dir}\\ghostdriver.log')
         except:
             pass
         animate('Page render engine online', end=1)
@@ -177,10 +177,10 @@ def course_scraper():
         return lecture_name, lecture_links, new_type
     except:
         animate(end=1)
-        print(f'An error occurred while {error_pos[step]} :('.center(120))
-        print('Press any key to exit.'.center(120))
-        system('pause>nul')
         driver.quit()
+        print(f'An error occurred while {error_pos[step]} :('.center(120))
         from cleanup import cleanup
         cleanup()
+        print('Press any key to exit.'.center(120))
+        system('pause>nul')
         _exit(0)

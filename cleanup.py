@@ -1,7 +1,7 @@
 from glob import iglob
 from os import remove, path
 from shutil import rmtree
-from sys import _MEIPASS
+from path_vars import work_dir
 from tempfile import gettempdir
 
 
@@ -20,7 +20,7 @@ def cleanup():
                 pass
 
     for dir_path in iglob(path.join(gettempdir(), "_MEI*")):
-        if path.isdir(dir_path) and dir_path != _MEIPASS:
+        if path.isdir(dir_path) and dir_path != work_dir:
             try:
                 rmtree(dir_path)
             except PermissionError:
@@ -32,3 +32,4 @@ def cleanup():
                 rmtree(dir_path)
             except PermissionError:
                 pass
+

@@ -2,7 +2,7 @@ from os import system, _exit
 from random import choices
 from shutil import copyfile
 from string import ascii_letters, digits
-from sys import _MEIPASS
+from path_vars import work_dir
 from tempfile import gettempdir
 
 from colorama import init, Fore, Back
@@ -14,7 +14,7 @@ from print_pdf import print_to_pdf
 init()
 print(Fore.LIGHTWHITE_EX, Back.BLACK, sep='', end='')
 
-system(f'{_MEIPASS}\\disable_quick_edit.bat 2 >nul')
+system(f'{work_dir}\\disable_quick_edit.bat 2 >nul')
 
 dummy = ''.join(choices(ascii_letters + digits, k=10))
 dummy_error = system(f'2>nul ( >{dummy} type nul)')
@@ -36,7 +36,7 @@ system(
 system('title Online Courseware Downloader')
 
 try:
-    copyfile(f'{_MEIPASS}\\phantomjs.exe', f'{gettempdir()}\\phantomjs.exe')
+    copyfile(f'{work_dir}\\phantomjs.exe', f'{gettempdir()}\\phantomjs.exe')
 except PermissionError:
     pass
 

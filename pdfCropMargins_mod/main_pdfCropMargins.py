@@ -58,6 +58,9 @@ from argparse import Namespace
 from . import external_program_calls as ex
 # Import the general function for calculating a list of bounding boxes.
 from .calculate_bounding_boxes import get_bounding_box_list
+import sys
+sys.path.append("..")
+from path_vars import temp_pdf
 
 python_version = ex.python_version
 project_src_directory = ex.project_src_directory
@@ -805,9 +808,7 @@ def process_command_line_arguments(parsed_args):
     #
 
     input_doc_fname = ex.glob_if_windows_os(args.pdf_input_doc[0], exact_num_args=1)[0]
-    if not input_doc_fname.endswith((".pdf", ".PDF")):
-        print("\nWarning in pdfCropMargins: The file extension is neither '.pdf'"
-              "\nnor '.PDF'; continuing anyway.", file=sys.stderr)
+
     if args.verbose:
         print("\nThe input document's filename is:\n   ", input_doc_fname)
     if not os.path.isfile(input_doc_fname):
@@ -1333,8 +1334,8 @@ def handle_options_on_cropped_file(input_doc_fname, output_doc_fname):
 def main_crop():
     """Process command-line arguments, do the PDF processing, and then perform final
     processing on the filenames."""
-    uncropped_pdf_path =  sys._MEIPASS + '\\a_very_random_name.pdf'
-    cropped_pdf_path =  sys._MEIPASS + '\\a_very_random_name_FINAL.pdf'
+    uncropped_pdf_path = f'{temp_pdf}_uncropped'
+    cropped_pdf_path = f'{temp_pdf}'
 
     parsed_args = Namespace(absoluteOffset=[-80.0], absoluteOffset4=None, absolutePreCrop=[0.0], absolutePreCrop4=None,
           boxesToSet=[], docCatBlacklist='', docCatWhitelist='', evenodd=False, fullPageBox=[], ghostscriptPath='',
