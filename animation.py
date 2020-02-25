@@ -4,7 +4,7 @@ from time import sleep
 
 from colorama import init, Fore
 
-running = True
+running = False
 colors = (
     Fore.CYAN, Fore.LIGHTRED_EX, Fore.YELLOW, Fore.MAGENTA, Fore.GREEN, Fore.LIGHTCYAN_EX,
     Fore.LIGHTGREEN_EX, Fore.LIGHTMAGENTA_EX, Fore.LIGHTWHITE_EX, Fore.LIGHTYELLOW_EX, Fore.WHITE)
@@ -15,14 +15,17 @@ def scrambler(animation_text):
     chars = '#*@!?$%+&'
     animation_text = animation_text.split()
 
-    while running:
+    while True:
         text = list()
         for word in animation_text:
             word = list(word)
             word[randrange(len(word))] = choice(chars)
             text.append(''.join(word))
-        sleep(0.05)
-        print(choice(colors) + ' '.join(text).center(120), end='\r')
+        if running:
+            print(choice(colors) + ' '.join(text).center(120), end='\r')
+            sleep(0.05)
+        else:
+            return
 
 
 def animate(message_text='', end=0):

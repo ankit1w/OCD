@@ -1,5 +1,4 @@
 from os import system, _exit
-from path_vars import work_dir
 from tempfile import gettempdir
 from time import sleep
 from warnings import filterwarnings
@@ -31,7 +30,7 @@ def check_updates():
 
 def wait_to_load(element):
     timeout = 0
-    while timeout < 20:
+    while timeout < 40:
         try:
             driver.find_element_by_id(element)
             return
@@ -133,6 +132,7 @@ def get_lecture_res():
     module = 1
     blink(f'{total_lectures} lectures have been found.')
     print()
+
     for i in range(1, total_lectures + 1):
         printProgressBar(i, total_lectures, prefix='Loading lectures', suffix='Complete', length=50)
         lecture_page = lecture_page.replace(f'_L{i - 1}', f'_L{i}')
@@ -159,8 +159,8 @@ def course_scraper():
         animate('Starting page render engine')
         try:
             driver = webdriver.PhantomJS(service_args=['--load-images=no'],
-                                         executable_path=f'{gettempdir()}\\phantomjs.exe',
-                                         service_log_path=f'{work_dir}\\ghostdriver.log')
+                                         executable_path=fr'{gettempdir()}\phantomjs.exe',
+                                         service_log_path='nul')
         except:
             pass
         animate('Page render engine online', end=1)

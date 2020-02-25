@@ -1,14 +1,15 @@
 from glob import iglob
 from os import remove, path
 from shutil import rmtree
-from path_vars import work_dir
 from tempfile import gettempdir
+
+from path_vars import work_dir
 
 
 def cleanup():
     try:
-        remove(f'{gettempdir()}\\phantomjs.exe')
-        remove(f'{gettempdir()}\\disable_quick_edit.exe')
+        remove(fr'{gettempdir()}\phantomjs.exe')
+        remove(fr'{gettempdir()}\disable_quick_edit.exe')
     except (FileNotFoundError, PermissionError) as _:
         pass
 
@@ -32,4 +33,3 @@ def cleanup():
                 rmtree(dir_path)
             except PermissionError:
                 pass
-
