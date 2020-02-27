@@ -1,55 +1,74 @@
-from os import system, _exit
-from random import choices
-from shutil import copyfile
-from string import ascii_letters, digits
-from tempfile import gettempdir
-
-from colorama import init, Fore, Back
-
-from cleanup import cleanup
-from course_scraper import course_scraper
-from path_vars import work_dir
-from print_pdf import print_to_pdf
-
-system('title Online Courseware Downloader')
-
-init()
-print(Fore.LIGHTWHITE_EX, Back.BLACK, sep='', end='')
-
-system(fr'{work_dir}\disable_quick_edit.bat 2 >nul')
-
-dummy = ''.join(choices(ascii_letters + digits, k=10))
-dummy_error = system(f'2>nul ( >{dummy} type nul)')
-if dummy_error:
-    print('Could not attain permissions to create PDF in the current location.')
-    print('Make sure the folder is writable without administrative access.')
-    print('If not, run the program as administrator.')
-    print('Press any key to exit.')
-
-    cleanup()
-    system('pause>nul')
-    _exit(0)
-else:
-    system(f'del {dummy}')
-
-system('mode con cols=120 lines=30')
-
-system('powershell -command "&{$H=get-host;$W=$H.ui.rawui;$B=$W.buffersize;'
-       '$B.width=150;$B.height=1000;$W.buffersize=$B;}">nul')
-
 try:
-    copyfile(fr'{work_dir}\phantomjs.exe', fr'{gettempdir()}\phantomjs.exe')
-except PermissionError:
-    pass
+    from os import system
+    from random import choices
+    from shutil import copyfile
+    from string import ascii_letters, digits
+    from tempfile import gettempdir
+    from threading import Thread
 
-print('Online Courseware Downloader'.center(120))
-print('github.com/ankit1w/OCD'.center(120))
-print('─' * 120)
-lecture_name, lecture_links, new_type = course_scraper()
-print_to_pdf(lecture_links, lecture_name, new_type)
-cleanup()
+    from cleanup import cleanup
+    from course_scraper import course_scraper
+    from path_vars import work_dir, phantomjs_path
+    from print_pdf import print_to_pdf
 
-system("title Online Courseware Downloader : "
-       f"Downloaded ↓ {lecture_name}".replace('&', '^&'))
-print('\nThanks for using the program!')
-system('pause>nul')
+    t = Thread(target=system, args=(fr'{work_dir}\disable_quick_edit.bat 2 >nul',))
+    t.start()
+
+    system('title Online Courseware Downloader')
+
+    dummy = ''.join(choices(ascii_letters + digits, k=10))
+    dummy_error = system(f'2>nul ( >{dummy} type nul)')
+    if dummy_error:
+        print('Could not attain permissions to create PDF in the current location.')
+        print('Make sure the folder is writable without administrative access.')
+        print('If not, run the program as administrator.')
+        print('Press any key to exit.')
+
+        cleanup()
+        system('pause>nul')
+        quit()
+    else:
+        system(f'del {dummy}')
+
+    system('mode con cols=120 lines=30')
+    system('powershell -command "&{$H=get-host;$W=$H.ui.rawui;$B=$W.buffersize;'
+           '$B.width=120;$B.height=450;$W.buffersize=$B;}">nul')
+    system('color 0F')
+
+    if phantomjs_path != '.':
+        try:
+            copyfile(fr'{work_dir}\phantomjs.exe', fr'{gettempdir()}\phantomjs.exe')
+        except PermissionError:
+            pass
+
+    print('Online Courseware Downloader'.center(120))
+    print('github.com/ankit1w/OCD'.center(120))
+    print('─' * 120)
+    lecture_name, lecture_links, new_type = course_scraper()
+    print_to_pdf(lecture_links, lecture_name, new_type)
+    cleanup()
+
+    system("title Online Courseware Downloader : "
+           f"Downloaded ↓ {lecture_name}".replace('&', '^&'))
+    system('cls')
+
+    print(f'\n{lecture_name}.pdf saved to current directory.'.center(120))
+    print(
+        "\n\n                                            ____\n ___                                      .-~    "
+        "'.\n`-._~-.                                  / /  ~@\\   )\n     \\  \\     Thanks for using          | /  "
+        "\\~\\.  `\\\n     ]  |       the program            /  |  |< ~\\(..)\n    /   !                        "
+        "_.--~T   \\  \\<   .,,\n   /   /                 ____.--~ .    _  /~\\ \\< /\n  /   /             .-~~'      "
+        "  /|   /o\\ /-~\\ \\_|\n /   /             /     )      |o|  / /|o/_   '--'\n/   /           .-'(     l__   "
+        "_j \\_/ / /\\|~    .\n/    l          /    \\       ~~~|    `/ / / \\.__/l_\n|     \\     _.-'      ~-\\__   "
+        "  l      /_/~-.___.--~\n|      ~---~           /   ~~'---\\_    __[o,\nl  .                _.    ___     "
+        "_>-/~\n\\  \\     .      .-~   .-~   ~>--'  /\n \\  ~---'            /         _.-'\n  '-.,_____.,"
+        "_  _.--~\\     _.-~\n              ~~     (   _}\n                     `. ~(\n                       )  \\\n "
+        "                /,`--'~\\--'~\\\n\n")
+    print('Press any key to exit.'.center(120))
+
+    system('pause>nul')
+except KeyboardInterrupt:
+    print('\nReceived KeyboardInterrupt!'.center(120))
+    print('Quitting in 5 seconds...'.center(120))
+    system('timeout 5 >nul')
+    quit()

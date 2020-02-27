@@ -1,4 +1,4 @@
-from os import system, _exit, path, remove
+from os import system, path, remove
 
 from animation import blink, animate
 from cleanup import cleanup
@@ -34,7 +34,7 @@ def print_to_pdf(lecture_links, lecture_name, new_type):
             print('Press any key to exit.')
             cleanup()
             system('pause>nul')
-            _exit(0)
+            quit()
 
     if path.exists(f'{temp_pdf}'):
         copy_fail = system(f'move "{temp_pdf}" "{lecture_name}.pdf">nul 2>&1')
@@ -45,10 +45,10 @@ def print_to_pdf(lecture_links, lecture_name, new_type):
             print('Press any key to exit.')
             cleanup()
             system('pause>nul')
-            _exit(0)
+            quit()
     else:
         print('Connection Error :(')
         print('Press any key to exit.')
         cleanup()
         system('pause>nul')
-        _exit(0)
+        quit()

@@ -1,5 +1,4 @@
-from os import system, _exit
-from tempfile import gettempdir
+from os import system
 from time import sleep
 from warnings import filterwarnings
 
@@ -8,24 +7,20 @@ from selenium import common, webdriver
 
 from animation import animate, printProgressBar, blink
 from cleanup import cleanup
+from path_vars import phantomjs_path
 
 step = 0
 driver = None
-error_pos = {1: 'login', 2: 'gathering subjects', 3: 'gathering the courseware', 4: 'getting lectures'}
+error_pos = {0: 'checking for updates', 1: 'starting the page render engine', 2: 'login', 3: 'gathering subjects',
+             4: 'gathering the courseware',
+             5: 'getting lectures'}
 
 
 def check_updates():
-    try:
-        animate("Checking updates...")
-        version = get('https://raw.githubusercontent.com/ankit1w/OCD/master/current_version').text[:-1]
-        animate(end=1)
-        return version
-    except:
-        animate('\r', end=1)
-        print('An error occurred while checking for updates.\nPress any key to exit.')
-        system('pause>nul')
-        cleanup()
-        _exit(0)
+    animate("Checking updates...")
+    version = get('https://raw.githubusercontent.com/ankit1w/OCD/master/current_version', timeout=20).text[:-1]
+    animate(end=1)
+    return version
 
 
 def wait_to_load(element):
@@ -34,7 +29,7 @@ def wait_to_load(element):
         try:
             driver.find_element_by_id(element)
             return
-        except:
+        except common.exceptions.NoSuchElementException:
             sleep(0.5)
             timeout += 1
 
@@ -93,6 +88,7 @@ def load_handbook():
         except ValueError:
             print('Wrong input! Enter again.\n')
 
+    print()
     lecture_name = js_functions[cmd_no].split(',', 1)[1][1:-2]
 
     blink(f"Loading...{lecture_name}")
@@ -117,10 +113,10 @@ def get_lecture_res():
 
     if head(lecture_page).status_code != 200:
         print('Lecture could not be found on server.'.center(120))
-        print('Press any key to exit.'.center(120))
+        print('Press any key to quit.'.center(120))
         cleanup()
         system('pause>nul')
-        _exit(0)
+        quit()
 
     new_type = check_lecture_type(lecture_page)
 
@@ -152,17 +148,19 @@ def course_scraper():
             print('Press any key to launch site.')
             system('pause>nul')
             system('start https://github.com/ankit1w/OCD/releases')
-            _exit(0)
+            quit()
 
         filterwarnings('ignore')
 
+        step += 1
         animate('Starting page render engine')
-        try:
-            driver = webdriver.PhantomJS(service_args=['--load-images=no'],
-                                         executable_path=fr'{gettempdir()}\phantomjs.exe',
-                                         service_log_path='nul')
-        except:
-            pass
+
+        driver = webdriver.PhantomJS(service_args=['--load-images=no'],
+                                     executable_path=fr'{phantomjs_path}\phantomjs.exe',
+                                     service_log_path='nul')
+        driver.implicitly_wait(30)
+        driver.set_page_load_timeout(30)
+
         animate('Page render engine online', end=1)
 
         step += 1
@@ -175,12 +173,18 @@ def course_scraper():
         lecture_links, new_type = get_lecture_res()
 
         return lecture_name, lecture_links, new_type
+    except KeyboardInterrupt:
+        animate(end=1)
+        print('Received KeyboardInterrupt!'.center(120))
+        print('Quitting in 5 seconds...'.center(120))
+        system('timeout 5 >nul')
+        quit()
     except:
         animate(end=1)
-        driver.quit()
         print(f'An error occurred while {error_pos[step]} :('.center(120))
         from cleanup import cleanup
         cleanup()
-        print('Press any key to exit.'.center(120))
+        print('Press any key to quit.'.center(120))
         system('pause>nul')
-        _exit(0)
+        print('HELLO')
+        quit()

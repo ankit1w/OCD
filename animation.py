@@ -28,7 +28,7 @@ def scrambler(animation_text):
             return
 
 
-def animate(message_text='', end=0):
+def animate(message_text=' ' * 120, end=0):
     global running
     if not end:
         running = True
@@ -36,6 +36,7 @@ def animate(message_text='', end=0):
         t.start()
     else:
         running = False
+        sleep(0.1)
         blink(message_text)
 
 

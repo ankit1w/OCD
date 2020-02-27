@@ -8,8 +8,8 @@ from path_vars import work_dir
 
 def cleanup():
     try:
-        remove(fr'{gettempdir()}\phantomjs.exe')
         remove(fr'{gettempdir()}\disable_quick_edit.exe')
+        remove(fr'{gettempdir()}\phantomjs.exe')
     except (FileNotFoundError, PermissionError) as _:
         pass
 
@@ -17,7 +17,7 @@ def cleanup():
         if path.isdir(dir_path):
             try:
                 rmtree(dir_path)
-            except:
+            except PermissionError:
                 pass
 
     for dir_path in iglob(path.join(gettempdir(), "_MEI*")):
