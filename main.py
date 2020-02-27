@@ -30,9 +30,9 @@ try:
     else:
         system(f'del {dummy}')
 
-    system('mode con cols=120 lines=30')
+    system('mode con cols=125 lines=30')
     system('powershell -command "&{$H=get-host;$W=$H.ui.rawui;$B=$W.buffersize;'
-           '$B.width=120;$B.height=450;$W.buffersize=$B;}">nul')
+           '$B.width=125;$B.height=450;$W.buffersize=$B;}">nul')
     system('color 0F')
 
     if phantomjs_path != '.':
@@ -43,7 +43,8 @@ try:
 
     print('Online Courseware Downloader'.center(120))
     print('github.com/ankit1w/OCD'.center(120))
-    print('─' * 120)
+    print('─' * 125)
+
     lecture_name, lecture_links, new_type = course_scraper()
     print_to_pdf(lecture_links, lecture_name, new_type)
     cleanup()
@@ -52,23 +53,36 @@ try:
            f"Downloaded ↓ {lecture_name}".replace('&', '^&'))
     system('cls')
 
-    print(f'\n{lecture_name}.pdf saved to current directory.'.center(120))
+    print()
+    print(f'{lecture_name}.pdf saved to current directory.'.center(120))
     print(
-        "\n\n                                            ____\n ___                                      .-~    "
-        "'.\n`-._~-.                                  / /  ~@\\   )\n     \\  \\     Thanks for using          | /  "
-        "\\~\\.  `\\\n     ]  |       the program            /  |  |< ~\\(..)\n    /   !                        "
-        "_.--~T   \\  \\<   .,,\n   /   /                 ____.--~ .    _  /~\\ \\< /\n  /   /             .-~~'      "
-        "  /|   /o\\ /-~\\ \\_|\n /   /             /     )      |o|  / /|o/_   '--'\n/   /           .-'(     l__   "
-        "_j \\_/ / /\\|~    .\n/    l          /    \\       ~~~|    `/ / / \\.__/l_\n|     \\     _.-'      ~-\\__   "
-        "  l      /_/~-.___.--~\n|      ~---~           /   ~~'---\\_    __[o,\nl  .                _.    ___     "
-        "_>-/~\n\\  \\     .      .-~   .-~   ~>--'  /\n \\  ~---'            /         _.-'\n  '-.,_____.,"
-        "_  _.--~\\     _.-~\n              ~~     (   _}\n                     `. ~(\n                       )  \\\n "
-        "                /,`--'~\\--'~\\\n\n")
+        "                                                                                ____ \n"
+        "                                     ___                                      .-~    '. \n"
+        "                                    `-._~-.                                  / /  ~@\   ) \n"
+        "                                         \  \     Thanks for using          | /  \~\.  `\ \n"
+        "                                         ]  |       the program            /  |  |< ~\(..) \n"
+        "                                        /   !                        _.--~T   \  \<   .,, \n"
+        "                                       /   /                 ____.--~ .    _  /~\ \< / \n"
+        "                                      /   /             .-~~'        /|   /o\ /-~\ \_| \n"
+        "                                     /   /             /     )      |o|  / /|o/_   '--' \n"
+        "                                    /   /           .-'(     l__   _j \_/ / /\|~    . \n"
+        "                                    /    l          /    \       ~~~|    `/ / / \.__/l_ \n"
+        "                                    |     \     _.-'      ~-\__     l      /_/~-.___.--~ \n"
+        "                                    |      ~---~           /   ~~'---\_    __[o, \n"
+        "                                    l  .                _.    ___     _>-/~ \n"
+        "                                    \  \     .      .-~   .-~   ~>--'  / \n"
+        "                                     \  ~---'            /         _.-' \n"
+        "                                      '-.,_____.,_  _.--~\     _.-~ \n"
+        "                                                  ~~     (   _} \n"
+        "                                                         `. ~( \n"
+        "                                                           )  \ \n"
+        "                                                     /,`--'~\--'~\ \n")
     print('Press any key to exit.'.center(120))
 
     system('pause>nul')
 except KeyboardInterrupt:
-    print('\nReceived KeyboardInterrupt!'.center(120))
+    print('\n')
+    print('Received KeyboardInterrupt!'.center(120))
     print('Quitting in 5 seconds...'.center(120))
     system('timeout 5 >nul')
     quit()

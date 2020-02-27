@@ -91,8 +91,12 @@ def load_handbook():
     print()
     lecture_name = js_functions[cmd_no].split(',', 1)[1][1:-2]
 
+    system('cls')
+    print('Online Courseware Downloader'.center(120))
+    print('github.com/ankit1w/OCD'.center(120))
+    print('─' * 125)
     blink(f"Loading...{lecture_name}")
-
+    print()
     system("title Online Courseware Downloader : "
            f"Downloading ↓ {lecture_name}".replace('&', '^&'))
 
