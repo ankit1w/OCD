@@ -1,7 +1,8 @@
+import sys
 from os import system
 from time import sleep
 from warnings import filterwarnings
-
+from threading import Thread
 from requests import head, get
 from selenium import common, webdriver
 
@@ -23,19 +24,6 @@ def check_updates():
     return version
 
 
-def wait_to_load(element):
-    timeout = 0
-    while timeout < 40:
-        try:
-            driver.find_element_by_id(element)
-            return
-        except common.exceptions.NoSuchElementException:
-            sleep(0.5)
-            timeout += 1
-
-    raise common.exceptions.NoSuchElementException
-
-
 def check_lecture_type(lecture_1):
     return "src='Imagepath/" in get(lecture_1).text
 
@@ -44,7 +32,6 @@ def login():
     animate('Attempting login')
 
     driver.execute_script("window.location.href='http://122.252.249.26:96/forms/frmlogin.aspx'")
-    wait_to_load('cmd_login')
     total_sum = driver.find_element_by_id('cntxt_tot_sum').get_attribute('value')
     driver.find_element_by_id('ctxt_user_id').send_keys('student')
     driver.find_element_by_id('ctxt_pass_word').send_keys('student')
@@ -58,7 +45,6 @@ def get_subject_list():
     animate('Getting list of subjects')
 
     driver.execute_script("LoadPage('frmSubjectList.aspx',0)")
-    wait_to_load('ul_subject_menu')
 
     animate('Subject list loaded!', end=1)
 
@@ -101,7 +87,6 @@ def load_handbook():
            f"Downloading ↓ {lecture_name}".replace('&', '^&'))
 
     driver.execute_script(js_functions[cmd_no])
-    wait_to_load('IFRAME_ID_1')
 
     return lecture_name
 
@@ -113,14 +98,15 @@ def get_lecture_res():
     lecture_page = driver.find_element_by_id('IFRAME_ID_1').get_attribute('src')
     lecture_page = lecture_page.split('#')[0]
 
-    driver.quit()
+    phantomjs_quit = Thread(target=driver.quit)
+    phantomjs_quit.start()
 
     if head(lecture_page).status_code != 200:
         print('Lecture could not be found on server.'.center(120))
         print('Press any key to quit.'.center(120))
         cleanup()
         system('pause>nul')
-        quit()
+        sys.exit(0)
 
     new_type = check_lecture_type(lecture_page)
 
@@ -152,7 +138,7 @@ def course_scraper():
             print('Press any key to launch site.')
             system('pause>nul')
             system('start https://github.com/ankit1w/OCD/releases')
-            quit()
+            sys.exit(0)
 
         filterwarnings('ignore')
 
@@ -162,8 +148,8 @@ def course_scraper():
         driver = webdriver.PhantomJS(service_args=['--load-images=no'],
                                      executable_path=fr'{phantomjs_path}\phantomjs.exe',
                                      service_log_path='nul')
-        driver.implicitly_wait(30)
-        driver.set_page_load_timeout(30)
+        driver.implicitly_wait(40)
+        driver.set_page_load_timeout(40)
 
         animate('Page render engine online', end=1)
 
@@ -182,7 +168,7 @@ def course_scraper():
         print('Received KeyboardInterrupt!'.center(120))
         print('Quitting in 5 seconds...'.center(120))
         system('timeout 5 >nul')
-        quit()
+        sys.exit(0)
     except:
         animate(end=1)
         print(f'An error occurred while {error_pos[step]} :('.center(120))
@@ -190,5 +176,4 @@ def course_scraper():
         cleanup()
         print('Press any key to quit.'.center(120))
         system('pause>nul')
-        print('HELLO')
-        quit()
+        sys.exit(0)

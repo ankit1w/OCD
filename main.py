@@ -5,7 +5,7 @@ try:
     from string import ascii_letters, digits
     from tempfile import gettempdir
     from threading import Thread
-
+    import sys
     from cleanup import cleanup
     from course_scraper import course_scraper
     from path_vars import work_dir, phantomjs_path
@@ -26,7 +26,7 @@ try:
 
         cleanup()
         system('pause>nul')
-        quit()
+        sys.exit(0)
     else:
         system(f'del {dummy}')
 
@@ -85,4 +85,5 @@ except KeyboardInterrupt:
     print('Received KeyboardInterrupt!'.center(120))
     print('Quitting in 5 seconds...'.center(120))
     system('timeout 5 >nul')
-    quit()
+finally:
+    sys.exit(0)

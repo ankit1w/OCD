@@ -1,3 +1,4 @@
+import sys
 from os import system, path, remove
 
 from animation import blink, animate
@@ -34,7 +35,7 @@ def print_to_pdf(lecture_links, lecture_name, new_type):
             print('Press any key to exit.')
             cleanup()
             system('pause>nul')
-            quit()
+            sys.exit(0)
 
     if path.exists(f'{temp_pdf}'):
         copy_fail = system(f'move "{temp_pdf}" "{lecture_name}.pdf">nul 2>&1')
@@ -45,10 +46,10 @@ def print_to_pdf(lecture_links, lecture_name, new_type):
             print('Press any key to exit.')
             cleanup()
             system('pause>nul')
-            quit()
+            sys.exit(0)
     else:
         print('Connection Error :(')
         print('Press any key to exit.')
         cleanup()
         system('pause>nul')
-        quit()
+        sys.exit(0)
