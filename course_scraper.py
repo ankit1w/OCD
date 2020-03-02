@@ -1,27 +1,47 @@
 import sys
 from os import system
-from time import sleep
-from warnings import filterwarnings
 from threading import Thread
+from warnings import filterwarnings
+
 from requests import head, get
 from selenium import common, webdriver
 
-from animation import animate, printProgressBar, blink
+from animation import animate, blink, printProgressBar
 from cleanup import cleanup
 from path_vars import phantomjs_path
 
+filterwarnings('ignore')
 step = 0
 driver = None
 error_pos = {0: 'checking for updates', 1: 'starting the page render engine', 2: 'login', 3: 'gathering subjects',
-             4: 'gathering the courseware',
-             5: 'getting lectures'}
+             4: 'getting lectures'}
 
 
-def check_updates():
+def check_updates(app_version):
     animate("Checking updates...")
     version = get('https://raw.githubusercontent.com/ankit1w/OCD/master/current_version', timeout=20).text[:-1]
     animate(end=1)
-    return version
+
+    if version != app_version:
+        print('Update available! Get the latest version from github.com/ankit1w/OCD/releases')
+        print('Press any key to launch site.')
+        system('pause>nul')
+        system('start https://github.com/ankit1w/OCD/releases')
+        sys.exit(0)
+
+
+def start_phantomjs():
+    global driver
+
+    animate('Starting page render engine')
+
+    driver = webdriver.PhantomJS(service_args=['--load-images=no'],
+                                 executable_path=fr'{phantomjs_path}\phantomjs.exe',
+                                 service_log_path='nul')
+    driver.implicitly_wait(40)
+    driver.set_page_load_timeout(40)
+
+    animate('Page render engine online', end=1)
 
 
 def check_lecture_type(lecture_1):
@@ -41,23 +61,18 @@ def login():
     animate('Login successful!', end=1)
 
 
-def get_subject_list():
-    animate('Getting list of subjects')
+def load_handbook():
+    animate('Gathering subjects')
 
     driver.execute_script("LoadPage('frmSubjectList.aspx',0)")
 
-    animate('Subject list loaded!', end=1)
-
-
-def load_handbook():
-    animate('Gathering courseware')
     subject_list = driver.find_element_by_id('ul_subject_menu').find_elements_by_tag_name('input')
     js_functions = tuple(map(lambda x: x.get_attribute('onclick'), subject_list))
 
     if len(js_functions) == 0:
         raise common.exceptions.NoSuchElementException
 
-    animate('Courseware loaded!', end=1)
+    animate('Subjects loaded!', end=1)
     for index, command in enumerate(js_functions):
         sub_name = command.split(',')[1][1:-2].split(' - ', 1)
         sub_name = (sub_name[0] + ' ').ljust(20, '─') + ' ' + sub_name[1]
@@ -67,24 +82,25 @@ def load_handbook():
     while True:
         print()
         try:
-            cmd_no = int(input(f'Enter subject number [1-{len(js_functions)}] : ')) - 1
+            cmd_no = int(input(f'Enter subject number [1-{len(js_functions)}] : '.rjust(60))) - 1
             if cmd_no not in range(0, len(js_functions)):
                 raise ValueError
             break
         except ValueError:
-            print('Wrong input! Enter again.\n')
+            print('Wrong input! Enter again.'.rjust(60), '\n')
 
     print()
     lecture_name = js_functions[cmd_no].split(',', 1)[1][1:-2]
 
     system('cls')
+    system("title Online Courseware Downloader : "
+           f"Downloading ↓ {lecture_name}".replace('&', '^&'))
     print('Online Courseware Downloader'.center(120))
     print('github.com/ankit1w/OCD'.center(120))
     print('─' * 125)
     blink(f"Loading...{lecture_name}")
     print()
-    system("title Online Courseware Downloader : "
-           f"Downloading ↓ {lecture_name}".replace('&', '^&'))
+
 
     driver.execute_script(js_functions[cmd_no])
 
@@ -120,7 +136,7 @@ def get_lecture_res():
     print()
 
     for i in range(1, total_lectures + 1):
-        printProgressBar(i, total_lectures, prefix='Loading lectures', suffix='Complete', length=50)
+        printProgressBar(i, total_lectures, prefix='Discovering pages', suffix='Complete', length=50)
         lecture_page = lecture_page.replace(f'_L{i - 1}', f'_L{i}')
         if head(lecture_page).status_code == 404:
             lecture_page = lecture_page.replace(f'_M{module}', f'_M{module + 1}')
@@ -131,35 +147,20 @@ def get_lecture_res():
 
 
 def course_scraper():
-    global step, driver
+    global step
     try:
-        if check_updates() != '1.0':
-            print('Update available! Get the latest version from github.com/ankit1w/OCD/releases')
-            print('Press any key to launch site.')
-            system('pause>nul')
-            system('start https://github.com/ankit1w/OCD/releases')
-            sys.exit(0)
+        check_updates('1.0')
 
-        filterwarnings('ignore')
+        step = 1
+        start_phantomjs()
 
-        step += 1
-        animate('Starting page render engine')
-
-        driver = webdriver.PhantomJS(service_args=['--load-images=no'],
-                                     executable_path=fr'{phantomjs_path}\phantomjs.exe',
-                                     service_log_path='nul')
-        driver.implicitly_wait(40)
-        driver.set_page_load_timeout(40)
-
-        animate('Page render engine online', end=1)
-
-        step += 1
+        step = 2
         login()
-        step += 1
-        get_subject_list()
-        step += 1
+
+        step = 3
         lecture_name = load_handbook()
-        step += 1
+
+        step = 4
         lecture_links, new_type = get_lecture_res()
 
         return lecture_name, lecture_links, new_type

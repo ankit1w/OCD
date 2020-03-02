@@ -46,7 +46,7 @@ def printProgressBar(iteration, total, prefix='', suffix='', decimals=1, length=
     bar = fill * filledLength + '-' * (length - filledLength)
     print(choice(colors) + '\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end='\r')
     if iteration == total:
-        print('\rLectures loaded!')
+        print('\r Pages collected ')
 
 
 def blink(message):

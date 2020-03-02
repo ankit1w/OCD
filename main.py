@@ -19,10 +19,10 @@ try:
     dummy = ''.join(choices(ascii_letters + digits, k=10))
     dummy_error = system(f'2>nul ( >{dummy} type nul)')
     if dummy_error:
-        print('Could not attain permissions to create PDF in the current location.')
-        print('Make sure the folder is writable without administrative access.')
-        print('If not, run the program as administrator.')
-        print('Press any key to exit.')
+        print('Could not attain permissions to create PDF in the current location.'.center(120))
+        print('Make sure the folder is writable without administrative access.'.center(120))
+        print('If not, run the program as administrator.'.center(120))
+        print('Press any key to exit.'.center(120))
 
         cleanup()
         system('pause>nul')
@@ -46,7 +46,7 @@ try:
     print('─' * 125)
 
     lecture_name, lecture_links, new_type = course_scraper()
-    print_to_pdf(lecture_links, lecture_name, new_type)
+    print_error = print_to_pdf(lecture_links, lecture_name, new_type)
     cleanup()
 
     system("title Online Courseware Downloader : "
@@ -55,6 +55,9 @@ try:
 
     print()
     print(f'{lecture_name}.pdf saved to current directory.'.center(120))
+    print()
+    if print_error:
+        print('The file is possibly incomplete due to connections errors.'.center(120))
     print(
         "                                                                                ____ \n"
         "                                     ___                                      .-~    '. \n"
