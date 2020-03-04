@@ -13,7 +13,10 @@ from path_vars import phantomjs_path
 filterwarnings('ignore')
 step = 0
 driver = None
-error_pos = {0: 'checking for updates', 1: 'starting the page render engine', 2: 'login', 3: 'gathering subjects',
+error_pos = {0: 'checking for updates',
+             1: 'starting the page render engine',
+             2: 'trying to log in',
+             3: 'gathering subjects',
              4: 'getting lectures'}
 
 
@@ -23,8 +26,8 @@ def check_updates(app_version):
     animate(end=1)
 
     if version != app_version:
-        print('Update available! Get the latest version from github.com/ankit1w/OCD/releases')
-        print('Press any key to launch site.')
+        print('Update available! Get the latest version from github.com/ankit1w/OCD/releases'.center(120))
+        print('Press any key to launch site.'.center(120))
         system('pause>nul')
         system('start https://github.com/ankit1w/OCD/releases')
         sys.exit(0)
@@ -32,7 +35,6 @@ def check_updates(app_version):
 
 def start_phantomjs():
     global driver
-
     animate('Starting page render engine')
 
     driver = webdriver.PhantomJS(service_args=['--load-images=no'],
@@ -45,7 +47,7 @@ def start_phantomjs():
 
 
 def check_lecture_type(lecture_1):
-    return "src='Imagepath/" in get(lecture_1).text
+    return "src='Imagepath/" in get(lecture_1, timeout=40).text
 
 
 def login():
@@ -89,25 +91,24 @@ def load_handbook():
         except ValueError:
             print('Wrong input! Enter again.'.rjust(60), '\n')
 
+    driver.execute_script(js_functions[cmd_no])
+
     print()
     lecture_name = js_functions[cmd_no].split(',', 1)[1][1:-2]
 
     system('cls')
-    system("title Online Courseware Downloader : "
-           f"Downloading ↓ {lecture_name}".replace('&', '^&'))
+    system(f"title Online Courseware Downloader : Downloading ↓ {lecture_name}".replace('&', '^&'))
     print('Online Courseware Downloader'.center(120))
     print('github.com/ankit1w/OCD'.center(120))
     print('─' * 125)
     blink(f"Loading...{lecture_name}")
     print()
 
-
-    driver.execute_script(js_functions[cmd_no])
-
     return lecture_name
 
 
 def get_lecture_res():
+    animate('Counting lectures...')
     lecture_links = list()
     total_lectures = len(set(map(lambda x: x.get_attribute('value'),
                                  driver.find_element_by_id('div_navigate_session').find_elements_by_tag_name('input'))))
@@ -118,6 +119,7 @@ def get_lecture_res():
     phantomjs_quit.start()
 
     if head(lecture_page).status_code != 200:
+        animate(end=1)
         print('Lecture could not be found on server.'.center(120))
         print('Press any key to quit.'.center(120))
         cleanup()
@@ -127,21 +129,20 @@ def get_lecture_res():
     new_type = check_lecture_type(lecture_page)
 
     if total_lectures == 1:
-        blink('Lecture loaded!')
+        animate('Lecture loaded!', end=1)
         lecture_links.append(lecture_page)
-        return lecture_links, new_type
+    else:
+        module = 1
+        animate(f'{total_lectures} lectures have been found.', end=1)
+        print()
 
-    module = 1
-    blink(f'{total_lectures} lectures have been found.')
-    print()
-
-    for i in range(1, total_lectures + 1):
-        printProgressBar(i, total_lectures, prefix='Discovering pages', suffix='Complete', length=50)
-        lecture_page = lecture_page.replace(f'_L{i - 1}', f'_L{i}')
-        if head(lecture_page).status_code == 404:
-            lecture_page = lecture_page.replace(f'_M{module}', f'_M{module + 1}')
-            module += 1
-        lecture_links.append(lecture_page)
+        for i in range(1, total_lectures + 1):
+            printProgressBar(i, total_lectures, prefix=' Discovering pages', suffix='Complete', length=50)
+            lecture_page = lecture_page.replace(f'_L{i - 1}', f'_L{i}')
+            if head(lecture_page, timeout=20).status_code == 404:
+                lecture_page = lecture_page.replace(f'_M{module}', f'_M{module + 1}')
+                module += 1
+            lecture_links.append(lecture_page)
 
     return lecture_links, new_type
 
@@ -170,6 +171,8 @@ def course_scraper():
         print('Quitting in 5 seconds...'.center(120))
         system('timeout 5 >nul')
         sys.exit(0)
+    except SystemExit:
+        pass
     except:
         animate(end=1)
         print(f'An error occurred while {error_pos[step]} :('.center(120))
