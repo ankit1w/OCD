@@ -1,16 +1,17 @@
-try:
-    from os import system
-    from random import choices
-    from shutil import copyfile
-    from string import ascii_letters, digits
-    from tempfile import gettempdir
-    from threading import Thread
-    import sys
-    from cleanup import cleanup
-    from course_scraper import course_scraper
-    from path_vars import work_dir, phantomjs_path
-    from print_pdf import print_to_pdf
+import sys
+from os import system
+from random import choices
+from shutil import copyfile
+from string import ascii_letters, digits
+from tempfile import gettempdir
+from threading import Thread
 
+from cleanup import cleanup
+from course_scraper import course_scraper
+from path_vars import work_dir, phantomjs_path
+from print_pdf import print_to_pdf
+
+try:
     t = Thread(target=system, args=(fr'{work_dir}\disable_quick_edit.bat 2 >nul',))
     t.start()
 
@@ -49,8 +50,7 @@ try:
     print_error = print_to_pdf(lecture_links, lecture_name, new_type)
     cleanup()
 
-    system("title Online Courseware Downloader : "
-           f"Downloaded ↓ {lecture_name}".replace('&', '^&'))
+    system(f"title Online Courseware Downloader : Downloaded ↓ {lecture_name}".replace('&', '^&'))
     system('cls')
 
     print()
@@ -88,5 +88,9 @@ except KeyboardInterrupt:
     print('Received KeyboardInterrupt!'.center(120))
     print('Quitting in 5 seconds...'.center(120))
     system('timeout 5 >nul')
+except SystemExit:
+    pass
+except:
+    print('Unknown error occurred.')
 finally:
     sys.exit(0)
