@@ -28,7 +28,7 @@ def scrambler(animation_text):
             return
 
 
-def animate(message_text=' ' * 120, end=0):
+def animate(message_text='', end=0):
     global running
     if not end:
         running = True
@@ -37,7 +37,10 @@ def animate(message_text=' ' * 120, end=0):
     else:
         running = False
         sleep(0.1)
-        blink(message_text)
+        if not message_text:
+            print(' ' * 120)
+        else:
+            blink(message_text)
 
 
 def printProgressBar(iteration, total, prefix='', suffix='', decimals=1, length=100, fill='█'):
@@ -46,7 +49,7 @@ def printProgressBar(iteration, total, prefix='', suffix='', decimals=1, length=
     bar = fill * filledLength + '-' * (length - filledLength)
     print(choice(colors) + '\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end='\r')
     if iteration == total:
-        print('\r Pages collected ')
+        print('\r  Pages collected ')
 
 
 def blink(message):
