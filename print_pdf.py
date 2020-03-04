@@ -1,15 +1,13 @@
 import sys
 from os import system, path, remove
 
-from animation import blink, animate
+from animation import animate
 from cleanup import cleanup
 from path_vars import work_dir, temp_pdf
 
 
 def print_to_pdf(lecture_links, lecture_name, new_type):
-    print()
-    blink('Printing gathered pages to PDF...')
-    print()
+    print('\n', 'Printing gathered pages to PDF...'.center(120), '\n')
 
     common_args = '-L 0mm -R 0mm -T 0mm -B 0mm --image-quality 100 -n --load-media-error-handling abort '
 
@@ -26,10 +24,14 @@ def print_to_pdf(lecture_links, lecture_name, new_type):
         if path.exists(f'{temp_pdf}_uncropped'):
             animate('Adjusting margins...')
 
-            from pdfCropMargins_mod.main_pdfCropMargins import main_crop
-            main_crop()
-            remove(f'{temp_pdf}_uncropped')
-            animate('Margins optimized!', end=1)
+            try:
+                from pdfCropMargins_mod.main_pdfCropMargins import main_crop
+                main_crop()
+                remove(f'{temp_pdf}_uncropped')
+                animate('Margins optimized!', end=1)
+            except:
+                animate(end=1)
+                raise
         else:
             print('Connection Error :('.center(120))
             print('Press any key to exit.'.center(120))
