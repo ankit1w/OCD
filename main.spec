@@ -1,7 +1,6 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 block_cipher = None
-print('HELLO')
 a = Analysis(['main.py'],
              pathex=[r'.'],
              binaries=[],
