@@ -1,11 +1,15 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 block_cipher = None
+
 a = Analysis(['main.py'],
              pathex=[r'.'],
              binaries=[],
              datas=[(r'.\pdfCropMargins_mod\pdftoppm_windows_local',r'pdfCropMargins_mod\pdftoppm_windows_local'),
-             (r'.\wkhtmltopdf.exe', '.'),(r'.\phantomjs.exe', '.'), (r'.\disable_quick_edit.bat', '.')],
+                    (r'.\wkhtmltopdf.exe', '.'),
+                    (r'.\phantomjs.exe', '.'),
+                    (r'.\disable_quick_edit.bat', '.'),
+                    (r'.\dino.txt', '.')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],

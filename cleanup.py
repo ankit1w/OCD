@@ -10,7 +10,7 @@ def cleanup():
     try:
         remove(fr'{gettempdir()}\disable_quick_edit.exe')
         remove(fr'{gettempdir()}\phantomjs.exe')
-    except (FileNotFoundError, PermissionError) as _:
+    except (FileNotFoundError, PermissionError):
         pass
 
     for dir_path in iglob(path.join(gettempdir(), "pdfCropMarginsTmpDir_*")):
