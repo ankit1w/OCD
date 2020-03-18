@@ -46,5 +46,5 @@ Report bugs via email at this address : [ankit.m@my.com](mailto:ankit.m@my.com?S
 ## Donate
 
 <p align="center">
-  <a href="DONATE.md"><img width="250" height="150" src="https://www.svgrepo.com/show/194260/donate.svg"></a>
+  <a href="https://github.com/ankit1w/OCD/blob/master/DONATE.md"><img width="250" height="150" src="https://www.svgrepo.com/show/194260/donate.svg"></a>
 </p>
