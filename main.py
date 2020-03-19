@@ -13,11 +13,6 @@ from course_scraper import course_scraper
 from path_vars import work_dir, phantomjs_path
 from print_pdf import print_to_pdf
 
-
-class WritePermissionDenied(Exception):
-    pass
-
-
 try:
     t = Thread(target=system, args=(fr'{work_dir}\disable_quick_edit.bat 2 >nul',))
     t.start()
@@ -26,8 +21,13 @@ try:
 
     dummy = ''.join(choices(ascii_letters + digits, k=10))
     dummy_error = system(f'2>nul ( >{dummy} type nul)')
+
     if dummy_error:
-        raise WritePermissionDenied
+        print('Could not attain permissions to create PDF in the current location.'.center(120))
+        print('Make sure the folder is writable without administrative access.'.center(120))
+        print('If not, run the program as administrator.'.center(120))
+        raise SystemExit
+
     system(f'del {dummy}')
 
     system('mode con cols=125 lines=30')
@@ -70,11 +70,6 @@ except KeyboardInterrupt:
         raise SystemExit
     except SystemExit:
         _exit(0)
-
-except WritePermissionDenied:
-    print('Could not attain permissions to create PDF in the current location.'.center(120))
-    print('Make sure the folder is writable without administrative access.'.center(120))
-    print('If not, run the program as administrator.'.center(120))
 
 except SystemExit as e:
     if not str(e):
