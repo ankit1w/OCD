@@ -6,7 +6,7 @@ from string import ascii_letters, digits
 from tempfile import gettempdir
 from threading import Thread
 from time import sleep
-
+import traceback
 from animation import animate
 from cleanup import cleanup
 from course_scraper import course_scraper
@@ -76,12 +76,12 @@ except SystemExit as e:
         print('Press any key to quit.'.center(120))
         getch()
 
-except Exception as e:
+except:
     animate(end=1)
     print('Unknown error occurred :('.center(120))
     try:
         with open('ocd_error_log.txt', 'a') as error_log:
-            error_log.write(str(e))
+            error_log.write(traceback.format_exc() + '\n\n')
         print("Please share the log file 'ocd_error_log.txt' with the developer at ankit.m@my.com".center(120))
     except:
         pass
