@@ -4,7 +4,8 @@ from animation import animate
 from path_vars import work_dir, temp_pdf
 
 
-class MoveFailed(Exception): pass
+class MoveFailed(Exception):
+    pass
 
 
 def print_to_pdf(lecture_links, lecture_name, new_type):
