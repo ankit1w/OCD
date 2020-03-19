@@ -8,7 +8,6 @@ from time import sleep
 
 from animation import animate
 from cleanup import cleanup
-from course_scraper import UpdateAvailable
 from course_scraper import course_scraper
 from path_vars import work_dir, phantomjs_path
 from print_pdf import print_to_pdf
@@ -76,15 +75,10 @@ except WritePermissionDenied:
     print('Make sure the folder is writable without administrative access.'.center(120))
     print('If not, run the program as administrator.'.center(120))
 
-except UpdateAvailable:
-    print('Update available! Get the latest version from bit.ly/ocd-update'.center(120))
-    print('Press any key to launch site.'.center(120))
-    system('pause>nul')
-    system('start https://github.com/ankit1w/OCD/releases')
-
-except SystemExit:
-    print('Press any key to quit.'.center(120))
-    system('pause>nul')
+except SystemExit as e:
+    if not str(e):
+        print('Press any key to quit.'.center(120))
+        system('pause>nul')
 
 except Exception as e:
     animate(end=1)

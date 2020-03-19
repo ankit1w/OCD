@@ -1,13 +1,15 @@
 from os import system
 from threading import Thread
 from warnings import filterwarnings
-
+from msvcrt import getch
 import urllib3
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 
 from animation import animate, blink, printProgressBar
 from path_vars import phantomjs_path
+
+current_version = '1.0.0'
 
 filterwarnings('ignore')
 step = 0
@@ -21,21 +23,36 @@ error_pos = ('checking for updates',
              'getting lectures')
 
 
-class UpdateAvailable(Exception):
-    pass
-
-
 class LectureNotFound(Exception):
     pass
 
 
-def check_updates(app_version):
+def check_updates():
+    global current_version
+    current_version = tuple(map(int, current_version.split('.')))
+
     animate("Checking updates")
-    version = http.request('GET', 'https://raw.githubusercontent.com/ankit1w/OCD/master/current_version').data[:-1]
+    update_url = 'https://raw.githubusercontent.com/ankit1w/OCD/master/latest_version'
+
+    latest_version = http.request('GET', update_url).data[:-1].decode()
+    latest_version = tuple(map(int, latest_version.split('.')))
     animate(end=1)
 
-    if app_version != version:
-        raise UpdateAvailable
+    if latest_version != current_version:
+        print('Update available! Get the latest version from bit.ly/ocd-update'.center(120))
+
+        if latest_version[0] > current_version[0] or latest_version[1] > current_version[1]:
+            print('Press any key to launch site.'.center(120))
+            getch()
+            system('start https://github.com/ankit1w/OCD/releases')
+            raise SystemExit(1)
+        else:
+            print("Press 'U' to launch update page, any other key to continue.".center(120), '\n')
+            update_now = getch().decode() in ('U', 'u')
+
+            if update_now:
+                system('start https://github.com/ankit1w/OCD/releases')
+                raise SystemExit(1)
 
 
 def start_phantomjs():
@@ -146,7 +163,7 @@ def get_lecture_res():
 def course_scraper():
     global step
     try:
-        check_updates(b'1.0')
+        check_updates()
         step = 1
         start_phantomjs()
         step = 2
