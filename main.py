@@ -78,8 +78,14 @@ except SystemExit as e:
 
 except Exception as e:
     animate(end=1)
-    print('Unknown error occurred.')
-    print(e)
+    print('Unknown error occurred :('.center(120))
+    try:
+        with open('ocd_error_log.txt', 'a') as error_log:
+            error_log.write(str(e))
+        print("Please share the log file 'ocd_error_log.txt' with the developer at ankit.m@my.com".center(120))
+    except:
+        pass
+
     print('Press any key to quit.'.center(120))
     getch()
 
