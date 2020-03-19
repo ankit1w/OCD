@@ -24,10 +24,6 @@ error_pos = ('checking for updates',
              'getting lectures')
 
 
-class LectureNotFound(Exception):
-    pass
-
-
 def check_updates():
     global current_version
     current_version = tuple(map(int, current_version.split('.')))
@@ -138,7 +134,9 @@ def get_lecture_res():
     phantomjs_quit.start()
 
     if http.request('HEAD', lecture_page).status != 200:
-        raise LectureNotFound
+        animate(end=1)
+        print('Lecture could not be found on server.'.center(120))
+        raise SystemExit
 
     new_type = b"src='Imagepath/" in http.request('GET', lecture_page).data
 
@@ -175,11 +173,6 @@ def course_scraper():
         lecture_links, new_type = get_lecture_res()
 
         return lecture_name, lecture_links, new_type
-
-    except LectureNotFound:
-        animate(end=1)
-        print('Lecture could not be found on server.'.center(120))
-        raise SystemExit
 
     except (NoSuchElementException, urllib3.exceptions.MaxRetryError, WebDriverException):
         animate(end=1)
