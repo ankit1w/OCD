@@ -78,10 +78,14 @@ except UpdateAvailable:
 except SystemExit:
     print('Press any key to quit.'.center(120))
     system('pause>nul')
+
+except Exception as e:
+    animate(end=1)
+    print('Unknown error occurred.')
+    print(e)
+
 finally:
     cleanup()
-'''except:
-    animate(end=1)
-    print('Unknown error occurred.')'''
+
 
 
