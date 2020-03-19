@@ -98,6 +98,7 @@ def load_handbook():
     lecture_name = js_functions[cmd_no].split(',', 1)[1][1:-2]
 
     system('cls')
+    system('color 0f')
     system(f'title Online Courseware Downloader : Downloading ↓ {lecture_name}'.replace('&', '^&'))
     print('Online Courseware Downloader'.center(120))
     print('github.com/ankit1w/OCD'.center(120))
@@ -157,17 +158,10 @@ def course_scraper():
 
         return lecture_name, lecture_links, new_type
 
-    except UpdateAvailable:
-        print('Update available! Get the latest version from bit.ly/ocd-update'.center(120))
-        raise
-
     except LectureNotFound:
         animate(end=1)
         print('Lecture could not be found on server.'.center(120))
         raise SystemExit
-
-    except KeyboardInterrupt:
-        raise
 
     except (NoSuchElementException, urllib3.exceptions.MaxRetryError, WebDriverException):
         animate(end=1)

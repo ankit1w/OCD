@@ -4,6 +4,7 @@ from shutil import copyfile
 from string import ascii_letters, digits
 from tempfile import gettempdir
 from threading import Thread
+from time import sleep
 
 from animation import animate
 from cleanup import cleanup
@@ -60,6 +61,11 @@ try:
 except KeyboardInterrupt:
     animate(end=1)
     print('\n', 'Received KeyboardInterrupt!'.center(120))
+
+    for i in range(5, 0, -1):
+        print(f'Quitting in {i} seconds'.center(120), end='\r')
+        sleep(1)
+
     try:
         raise SystemExit
     except SystemExit:
@@ -71,6 +77,7 @@ except WritePermissionDenied:
     print('If not, run the program as administrator.'.center(120))
 
 except UpdateAvailable:
+    print('Update available! Get the latest version from bit.ly/ocd-update'.center(120))
     print('Press any key to launch site.'.center(120))
     system('pause>nul')
     system('start https://github.com/ankit1w/OCD/releases')
@@ -83,9 +90,8 @@ except Exception as e:
     animate(end=1)
     print('Unknown error occurred.')
     print(e)
+    print('Press any key to quit.'.center(120))
+    system('pause>nul')
 
 finally:
     cleanup()
-
-
-
