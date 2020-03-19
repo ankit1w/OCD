@@ -5,11 +5,9 @@ from time import sleep
 from colorama import init, Fore, Back
 
 running = False
-colors = (
-    Fore.CYAN, Fore.LIGHTRED_EX, Fore.YELLOW, Fore.MAGENTA, Fore.GREEN, Fore.LIGHTCYAN_EX,
-    Fore.LIGHTGREEN_EX, Fore.LIGHTMAGENTA_EX, Fore.LIGHTWHITE_EX, Fore.LIGHTYELLOW_EX, Fore.WHITE)
+colors = (Fore.CYAN, Fore.LIGHTRED_EX, Fore.YELLOW, Fore.MAGENTA, Fore.GREEN, Fore.LIGHTCYAN_EX,
+          Fore.LIGHTGREEN_EX, Fore.LIGHTMAGENTA_EX, Fore.LIGHTWHITE_EX, Fore.LIGHTYELLOW_EX, Fore.WHITE)
 init()
-
 print(Back.BLACK)
 
 

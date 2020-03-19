@@ -4,6 +4,7 @@ from warnings import filterwarnings
 
 import urllib3
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException, WebDriverException
 
 from animation import animate, blink, printProgressBar
 from path_vars import phantomjs_path
@@ -20,10 +21,12 @@ error_pos = ('checking for updates',
              'getting lectures')
 
 
-class UpdateAvailable(Exception): pass
+class UpdateAvailable(Exception):
+    pass
 
 
-class LectureNotFound(Exception): pass
+class LectureNotFound(Exception):
+    pass
 
 
 def check_updates(app_version):
@@ -31,7 +34,7 @@ def check_updates(app_version):
     version = http.request('GET', 'https://raw.githubusercontent.com/ankit1w/OCD/master/current_version').data[:-1]
     animate(end=1)
 
-    if version != app_version:
+    if app_version != version:
         raise UpdateAvailable
 
 
@@ -45,6 +48,7 @@ def start_phantomjs():
 
     driver.implicitly_wait(20)
     driver.set_page_load_timeout(20)
+    driver.set_script_timeout(20)
 
     animate('Page render engine online', end=1)
 
@@ -165,7 +169,7 @@ def course_scraper():
     except KeyboardInterrupt:
         raise
 
-    except:
+    except (NoSuchElementException, urllib3.exceptions.MaxRetryError, WebDriverException):
         animate(end=1)
         print(f'An error occurred while {error_pos[step]} :('.center(120))
         print('Please check your internet connection speed and stability'.center(120))

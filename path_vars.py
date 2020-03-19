@@ -3,9 +3,8 @@ from string import ascii_letters, digits
 from tempfile import gettempdir
 
 try:
-    from sys import _MEIPASS
-    work_dir = _MEIPASS
-    temp_pdf = fr"{_MEIPASS}\{''.join(choices(ascii_letters + digits, k=10))}"
+    from sys import _MEIPASS as work_dir
+    temp_pdf = fr"{work_dir}\{''.join(choices(ascii_letters + digits, k=10))}"
     phantomjs_path = gettempdir()
 except ImportError:
     work_dir = '.'

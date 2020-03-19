@@ -13,7 +13,8 @@ from path_vars import work_dir, phantomjs_path
 from print_pdf import print_to_pdf
 
 
-class WritePermissionDenied(Exception): pass
+class WritePermissionDenied(Exception):
+    pass
 
 
 try:
@@ -77,10 +78,10 @@ except UpdateAvailable:
 except SystemExit:
     print('Press any key to quit.'.center(120))
     system('pause>nul')
-
-except:
-    animate(end=1)
-    print('Unknown error occurred.')
-
 finally:
     cleanup()
+'''except:
+    animate(end=1)
+    print('Unknown error occurred.')'''
+
+
