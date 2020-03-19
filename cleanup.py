@@ -1,5 +1,5 @@
 from glob import iglob
-from os import remove, path
+from os import remove, path, stat
 from shutil import rmtree
 from tempfile import gettempdir
 
@@ -31,5 +31,12 @@ def cleanup():
         if path.isdir(dir_path + '\\gen_py'):
             try:
                 rmtree(dir_path)
+            except PermissionError:
+                pass
+
+    for tmp in iglob(path.join(gettempdir(), "tmp*")):
+        if len(tmp.split('\\')[-1]) == 11 and stat(tmp).st_size == 0:
+            try:
+                remove(tmp)
             except PermissionError:
                 pass
