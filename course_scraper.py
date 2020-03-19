@@ -1,7 +1,8 @@
+from msvcrt import getch
 from os import system
 from threading import Thread
 from warnings import filterwarnings
-from msvcrt import getch
+
 import urllib3
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, WebDriverException

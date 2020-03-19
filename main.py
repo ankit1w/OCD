@@ -1,3 +1,4 @@
+from msvcrt import getch
 from os import system, _exit
 from random import choices
 from shutil import copyfile
@@ -78,14 +79,14 @@ except WritePermissionDenied:
 except SystemExit as e:
     if not str(e):
         print('Press any key to quit.'.center(120))
-        system('pause>nul')
+        getch()
 
 except Exception as e:
     animate(end=1)
     print('Unknown error occurred.')
     print(e)
     print('Press any key to quit.'.center(120))
-    system('pause>nul')
+    getch()
 
 finally:
     cleanup()
