@@ -1,6 +1,7 @@
 from os import system, path, remove
 
 from animation import animate
+from center_print import print
 from path_vars import work_dir, temp_pdf
 
 
@@ -10,8 +11,8 @@ class MoveFailed(Exception):
 
 def print_to_pdf(lecture_links, lecture_name, new_type):
     try:
-        print('\n', 'Printing gathered pages to PDF...'.center(120), '\n')
-
+        print('\n', 'Printing gathered pages to PDF...')
+        print()
         common_args = '-L 0mm -R 0mm -T 0mm -B 0mm --image-quality 100 -n --load-media-error-handling abort '
 
         if new_type:
@@ -43,11 +44,11 @@ def print_to_pdf(lecture_links, lecture_name, new_type):
 
     except ConnectionError:
         animate(end=1)
-        print('Connection Error :('.center(120))
+        print('Connection Error :(')
         raise SystemExit
 
     except MoveFailed:
-        print('\n', 'Could not attain permissions to create PDF in the current location.'.center(120))
+        print('\n', 'Could not attain permissions to create PDF in the current location.')
         print("Make sure an already existing PDF isn't open in a running program,"
-              " or administrative rights are not required.".center(120), '\n')
+              " or administrative rights are not required.", '\n')
         raise SystemExit
