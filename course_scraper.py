@@ -2,7 +2,7 @@ from msvcrt import getch
 from os import system
 from warnings import filterwarnings
 
-import urllib3
+import requests
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 
@@ -15,7 +15,7 @@ current_version = '1.0.0'
 filterwarnings('ignore')
 step = 0
 driver = None
-request = urllib3.PoolManager(timeout=10).request
+session = requests.Session()
 
 error_pos = ('checking for updates',
              'starting the page render engine',
@@ -31,7 +31,7 @@ def check_updates():
     animate('Checking updates')
     update_url = 'https://raw.githubusercontent.com/ankit1w/OCD/master/latest_version'
 
-    latest_version = request('GET', update_url).data[:-1].decode()
+    latest_version = session.get(update_url, timeout=10).text[:-1]
     latest_version = tuple(map(int, latest_version.split('.')))
     animate(end=1)
 
@@ -134,12 +134,12 @@ def get_lecture_res():
 
     driver.quit()
 
-    if request('HEAD', lecture_page).status != 200:
+    if session.head(lecture_page, timeout=10).status_code != 200:
         animate(end=1)
         print('Lecture could not be found on server.')
         raise SystemExit
 
-    new_type = b"src='Imagepath/" in request('GET', lecture_page).data
+    new_type = "src='Imagepath/" in session.get(lecture_page, timeout=10).text
 
     if total_lectures == 1:
         animate('Lecture loaded!', end=1)
@@ -152,7 +152,7 @@ def get_lecture_res():
         for i in range(1, total_lectures + 1):
             printProgressBar(i, total_lectures, prefix=' Discovering pages', suffix='Complete', length=50)
             lecture_page = lecture_page.replace(f'_L{i - 1}', f'_L{i}')
-            if request('HEAD', lecture_page).status == 404:
+            if session.head(lecture_page, timeout=10).status_code == 404:
                 lecture_page = lecture_page.replace(f'_M{module}', f'_M{module + 1}')
                 module += 1
             lecture_links.append(lecture_page)
@@ -175,7 +175,7 @@ def course_scraper():
 
         return lecture_name, lecture_links, new_type
 
-    except (NoSuchElementException, urllib3.exceptions.MaxRetryError, WebDriverException):
+    except (NoSuchElementException, requests.exceptions.RequestException, WebDriverException):
         animate(end=1)
         print(f'An error occurred while {error_pos[step]} :(')
         print('Please check your internet connection speed and stability.')
