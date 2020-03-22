@@ -25,7 +25,9 @@ Runs on 32bit and 64bit versions of Windows 7, 8, 8.1 and 10.
    it is recommended otherwise.
    
    - After selecting the subject of choice, the program will save its PDF in the same location as the executable.
-
+   
+   <img width="639" src="https://raw.githubusercontent.com/ankit1w/OCD/assets/ocd.gif">
+   
 ## Bug reporting
 
 > Before reporting bugs or readability issues, please cross check the OCD generated files with the actual coursewares available [here](http://122.252.249.26:96/forms/frmlogin.aspx). The program cannot fix bad formatting or missing files on the server side.
