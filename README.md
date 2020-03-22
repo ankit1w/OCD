@@ -26,7 +26,11 @@ Runs on 32bit and 64bit versions of Windows 7, 8, 8.1 and 10.
    
    - After selecting the subject of choice, the program will save its PDF in the same location as the executable.
    
-   <img width="639" src="https://raw.githubusercontent.com/ankit1w/OCD/assets/ocd.gif">
+   
+<p align="center">
+  <img width="800" src="https://raw.githubusercontent.com/ankit1w/OCD/assets/ocd.gif">
+</p> 
+   
    
 ## Bug reporting
 
