@@ -67,8 +67,10 @@ except KeyboardInterrupt:
 
 except SystemExit as e:
     if not str(e):
-        print('\n', 'Press any key to quit.')
-        getch()
+        print('\n', "Press 'D' to donate, any other key to quit.")
+
+        if getch().decode() in ('D', 'd'):
+            system('start https://github.com/ankit1w/OCD/blob/master/DONATE.md')
 
 except:
     animate(end=1)
