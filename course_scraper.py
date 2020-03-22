@@ -29,9 +29,9 @@ def check_updates():
     current_version = tuple(map(int, current_version.split('.')))
 
     animate('Checking updates')
-    update_url = 'https://raw.githubusercontent.com/ankit1w/OCD/master/latest_version'
 
-    latest_version = session.get(update_url, timeout=10).text[:-1]
+    releases_url = 'https://github.com/ankit1w/OCD/releases/latest'
+    latest_version = session.head(releases_url, allow_redirects=True, timeout=10).url.split('/tag/v')[1]
     latest_version = tuple(map(int, latest_version.split('.')))
     animate(end=1)
 
