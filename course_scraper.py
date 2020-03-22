@@ -176,7 +176,10 @@ def course_scraper():
         return lecture_name, lecture_links, new_type
 
     except (NoSuchElementException, requests.exceptions.RequestException, WebDriverException):
+        if driver:
+            driver.quit()
         animate(end=1)
         print(f'An error occurred while {error_pos[step]} :(')
         print('Please check your internet connection speed and stability.')
         raise SystemExit
+

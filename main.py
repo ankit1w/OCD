@@ -1,6 +1,6 @@
 import traceback
 from msvcrt import getch
-from os import system, _exit
+from os import system
 from random import choices
 from shutil import copyfile
 from string import ascii_letters, digits
@@ -18,6 +18,7 @@ try:
     t = Thread(target=system, args=(fr'{work_dir}\disable_quick_edit.bat 2 >nul',))
     t.start()
 
+    system('cls')
     dummy = ''.join(choices(ascii_letters + digits, k=10))
     dummy_error = system(f'2>nul ( >{dummy} type nul)')
 
@@ -54,23 +55,19 @@ try:
         print('The file is possibly incomplete due to missing resources.')
 
     print(open(fr'{work_dir}\dino.txt').read())
-    raise SystemExit
+
+    print('\n', "Press 'D' to donate, any other key to quit.")
+    if getch() in (b'D', b'd'):
+        system('start https://github.com/ankit1w/OCD/blob/assets/DONATE.md')
 
 except KeyboardInterrupt:
     animate(end=1)
     print('Received KeyboardInterrupt!')
 
-    try:
-        raise SystemExit
-    except SystemExit:
-        _exit(0)
-
 except SystemExit as e:
     if not str(e):
-        print('\n', "Press 'D' to donate, any other key to quit.")
-
-        if getch() in (b'D', b'd'):
-            system('start https://github.com/ankit1w/OCD/blob/master/DONATE.md')
+        print('\n', 'Press any key to quit.')
+        getch()
 
 except:
     animate(end=1)
