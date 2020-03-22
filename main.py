@@ -69,7 +69,7 @@ except SystemExit as e:
     if not str(e):
         print('\n', "Press 'D' to donate, any other key to quit.")
 
-        if getch().decode() in ('D', 'd'):
+        if getch() in (b'D', b'd'):
             system('start https://github.com/ankit1w/OCD/blob/master/DONATE.md')
 
 except:

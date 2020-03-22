@@ -45,7 +45,7 @@ def check_updates():
             raise SystemExit(1)
         else:
             print("Press 'U' to launch update page, any other key to continue.", '\n')
-            update_now = getch().decode() in ('U', 'u')
+            update_now = getch() in (b'U', b'u')
 
             if update_now:
                 system('start https://github.com/ankit1w/OCD/releases')
