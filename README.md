@@ -2,7 +2,7 @@
 
 **Online Coursewares don't need to be online anymore!**
 
-*This is the cheesiest tagline I could think of :)*
+*This is the lamest tagline I could think of :)*
 
 ## Getting Started
 
