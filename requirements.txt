@@ -1,6 +1,6 @@
-colorama==0.4.3
-fuckit==4.8.1
-Pillow==7.2.0
-PyPDF2==1.26.0
-requests==2.23.0
-selenium==3.141.0
+colorama
+fuckit
+Pillow
+PyPDF2
+requests
+selenium

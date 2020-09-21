@@ -438,7 +438,7 @@ def init_and_test_pdftoppm_executable(prefer_local=False, exit_on_fail=False):
     # the system type to "Windows" and it automatically runs Wine on the exe.
     if prefer_local or (not pdftoppm_executable and system_os == "Windows"):
         # NOTE: When updating xpdf version, change here and ALSO in setup.py, near top.
-        path = os.path.join(program_code_directory,"pdftoppm_windows_local","xpdf_tools_win_4_01_01")
+        path = os.path.join(program_code_directory,"pdftoppm_windows_local","xpdf_tools_win_4_02")
 
         # Paths to the package_data Windows executables, made part of the package
         # with __init__.py files.

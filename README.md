@@ -1,18 +1,14 @@
 # Online Courseware Downloader
 
-**Online Coursewares don't need to be online anymore!**
-
-*This is the lamest tagline I could think of :)*
-
 ## Getting Started
 
-This program helps you download online coursewares in the form of printable PDF files, which are viewable on a wide range of devices. Attempts have been made to preserve original quality of the lectures, without compromising the readability.
+This program helps you download online coursewares in the form of printable PDF files, that can be viewed on a wide range of devices. Attempts have been made to preserve original quality of the lectures, without compromising the readability.
 
 The actual courses are available [here](http://122.252.249.26:96/forms/frmlogin.aspx).
 
 ## Compatibility
 
-Runs on 32bit and 64bit versions of Windows 7, 8, 8.1 and 10.
+Runs on 32-bit and 64-bit versions of Windows 7, 8, 8.1 and 10.
 
 ## How To
 
@@ -30,22 +26,9 @@ Runs on 32bit and 64bit versions of Windows 7, 8, 8.1 and 10.
 <p align="center">
   <img width="800" src="https://raw.githubusercontent.com/ankit1w/OCD/assets/ocd.gif">
 </p> 
-   
-   
-## Bug reporting
-
-> Before reporting bugs or readability issues, please cross check the OCD generated files with the actual coursewares available [here](http://122.252.249.26:96/forms/frmlogin.aspx). The program cannot fix bad formatting or missing files on the server side.
-
-Report bugs via email at this address : [ankit.m@my.com](mailto:ankit.m@my.com?Subject=OCD%20Bug%20Report)
 
 ## Built With
 
 * [PhantomJS](https://phantomjs.org/) - Headless browser used to scrape courseware site.
 * [wkhtmltopdf](https://wkhtmltopdf.org/) - Command line tool to generate PDFs from HTML.
 * [pdfCropMargins](https://github.com/abarker/pdfCropMargins) - Used to correct margins for easier readability, modified slightly to work without arguments.
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used.
-* Thanks to the teachers who emphasized the importance of the Online Coursewares, which led me to develop this downloader instead of studying the lessons. :\
-* [Stack Overflow](https://stackoverflow.com/), for being what it is.

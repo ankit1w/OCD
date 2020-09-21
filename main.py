@@ -56,9 +56,8 @@ try:
 
     print(open(fr'{work_dir}\dino.txt').read())
 
-    print('\n', "Press 'D' to donate, any other key to quit.")
-    if getch() in (b'D', b'd'):
-        system('start https://github.com/ankit1w/OCD/blob/assets/DONATE.md')
+    print('\n', "Press any key to quit.")
+    getch()
 
 except KeyboardInterrupt:
     animate(end=1)

@@ -5,7 +5,7 @@ block_cipher = None
 a = Analysis(['main.py'],
              pathex=[r'.'],
              binaries=[],
-             datas=[(r'.\pdfCropMargins_mod\pdftoppm_windows_local',r'pdfCropMargins_mod\pdftoppm_windows_local'),
+             datas=[(r'.\pdfCropMargins_mod\pdftoppm_windows_local', r'pdfCropMargins_mod\pdftoppm_windows_local'),
                     (r'.\wkhtmltopdf.exe', '.'),
                     (r'.\phantomjs.exe', '.'),
                     (r'.\disable_quick_edit.bat', '.'),

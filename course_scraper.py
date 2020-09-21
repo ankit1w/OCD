@@ -10,7 +10,7 @@ from animation import animate, blink, printProgressBar
 from center_print import print
 from path_vars import phantomjs_path
 
-current_version = '1.0.0'
+current_version = '1.1.0'
 
 filterwarnings('ignore')
 step = 0
@@ -84,9 +84,18 @@ def load_handbook():
     animate('Gathering subjects')
 
     driver.execute_script("LoadPage('frmSubjectList.aspx',0)")
+    
+    timeout = 0
+    while True:
+        subject_list = driver.find_element_by_id('m_row_subject_list').find_elements_by_tag_name('button')
+        if subject_list[0].get_attribute('onclick'):
+            break
+        if timeout == 10:
+            raise NoSuchElementException
+        system('timeout 1 > nul')
+        timeout += 1
 
-    subject_list = driver.find_element_by_id('ul_subject_menu').find_elements_by_tag_name('input')
-    js_functions = tuple(map(lambda x: x.get_attribute('onclick'), subject_list))
+    js_functions = tuple(map(lambda x: x.get_attribute('onclick').split(';')[0], subject_list))
 
     if not len(js_functions):
         raise NoSuchElementException
