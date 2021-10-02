@@ -3,13 +3,13 @@
 block_cipher = None
 
 a = Analysis(['main.py'],
-             pathex=[r'.'],
+             pathex=['.'],
              binaries=[],
-             datas=[(r'.\pdfCropMargins_mod\pdftoppm_windows_local', r'pdfCropMargins_mod\pdftoppm_windows_local'),
-                    (r'.\wkhtmltopdf.exe', '.'),
-                    (r'.\phantomjs.exe', '.'),
-                    (r'.\disable_quick_edit.bat', '.'),
-                    (r'.\dino.txt', '.')],
+             datas=[('pdfCropMargins_mod/pdftoppm_windows_local', 'pdfCropMargins_mod/pdftoppm_windows_local'),
+                    ('wkhtmltopdf.exe', '.'),
+                    ('phantomjs.exe', '.'),
+                    ('disable_quick_edit.bat', '.'),
+                    ('dino.txt', '.')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -20,23 +20,6 @@ a = Analysis(['main.py'],
              noarchive=False)
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
-
-Key = ['mkl','libopenblas','numpy','tcl', 'tkinter','mfc140u']
-
-def remove_from_list(input, keys):
-    outlist = []
-    for item in input:
-        name, _, _ = item
-        flag = 0
-        for key_word in keys:
-            if name.find(key_word) > -1:
-                flag = 1
-        if flag != 1:
-            outlist.append(item)
-    return outlist
-
-a.binaries = remove_from_list(a.binaries, Key)
-
 
 exe = EXE(pyz,
           a.scripts,
@@ -53,4 +36,4 @@ exe = EXE(pyz,
           upx_exclude=[],
           runtime_tmpdir=None,
           console=True,
-          icon=r'./ocd.ico')
+          icon='ocd.ico')

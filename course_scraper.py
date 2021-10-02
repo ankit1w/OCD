@@ -10,7 +10,7 @@ from animation import animate, blink, printProgressBar
 from center_print import print
 from path_vars import phantomjs_path
 
-current_version = '1.1.0'
+current_version = '1.2.0'
 
 filterwarnings('ignore')
 step = 0
@@ -87,7 +87,7 @@ def load_handbook():
     
     timeout = 0
     while True:
-        subject_list = driver.find_element_by_id('m_row_subject_list').find_elements_by_tag_name('button')
+        subject_list = driver.find_element_by_id('ul_subject_menu').find_elements_by_tag_name('input')
         if subject_list[0].get_attribute('onclick'):
             break
         if timeout == 10:
