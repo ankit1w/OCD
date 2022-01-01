@@ -8,7 +8,7 @@ The actual courses are available [here](http://122.252.249.26:96/forms/frmlogin.
 
 ## Compatibility
 
-Runs on 32-bit and 64-bit versions of Windows 7, 8, 8.1 and 10.
+Runs on 32-bit and 64-bit versions of Windows 7, 8, 8.1, 10 and 11.
 
 ## How To
 
